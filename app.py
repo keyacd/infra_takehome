@@ -6,6 +6,8 @@ import sqlite3
 
 app = Flask(__name__)
 
+# Class used to make processing the bird data easier
+# Not used for return function
 class BirdData(object):
     def __init__(self, state=None, bird=None, scientific_name=None, year=None, abbreviation=None):
         self.state = state
@@ -16,6 +18,7 @@ class BirdData(object):
     def __str__(self):
         return "test" + self.state
 
+# Function to get bird data; returns in both json and custom class object
 def get_bird(state: str):
     conn = sqlite3.connect("./birds.db")
     conn.row_factory = sqlite3.Row
@@ -30,6 +33,7 @@ def get_bird(state: str):
         result.append(BirdData(*item))
     return json.dumps(list_accumulator), result
 
+# Function to get the weather data by connecting to api.weather.gov
 def get_weather(state: str):
     r = requests.get(f'https://api.weather.gov/alerts/active?area={state}')
     return r.json()
@@ -41,7 +45,7 @@ def hello():
            200, \
            {'Content-Type': 'text/html; charset=utf-8'}
 
-
+# Primary function
 @app.get('/<state>')
 def bird(state):
     state = state.upper()
