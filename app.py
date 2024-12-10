@@ -48,7 +48,7 @@ def bird(state):
     bird_json, bird_obj = get_bird(state)
     if len(bird_obj) < 1:
         print(f"Error: No birds found for abbreviation <{state}>")
-        return bird_obj, 400, {'Content-Type': 'application/json'}
+        return bird_json, 404, {'Content-Type': 'application/json'}
     print(f"State <{bird_obj[0].state}> has the following bird(s): ")
     for bird in bird_obj:
         print(f"\t{bird.bird} <{bird.scientific_name}>")
@@ -56,7 +56,11 @@ def bird(state):
     if weather['title'] == 'Bad Request':
         print(f"Error: Bad Request for weather")
         return weather, 400, {'Content-Type': 'application/json'}
-    print(weather['title'])
+    print(weather['title'] + ":")
+    features = weather['features']
+    if not isinstance(features, list):
+        features = [features]
+    for item in features:
+        print("\t" + str(item['properties']['headline']))
     out = str([bird_json, weather])
     return out, 200, {'Content-Type': 'application/json'}
-
