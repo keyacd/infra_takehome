@@ -47,15 +47,15 @@ def bird(state):
     state = state.upper()
     bird_json, bird_obj = get_bird(state)
     if len(bird_obj) < 1:
-        raise ValueError(f"No birds found for abbreviation <{state}>")
-        return out, 400, {'Content-Type': 'application/json'}
+        print(f"Error: No birds found for abbreviation <{state}>")
+        return bird_obj, 400, {'Content-Type': 'application/json'}
     print(f"State <{bird_obj[0].state}> has the following bird(s): ")
     for bird in bird_obj:
         print(f"\t{bird.bird} <{bird.scientific_name}>")
     weather = get_weather(state)
     if weather['title'] == 'Bad Request':
-        raise ValueError(f"Bad Request for weather")
-        return out, 400, {'Content-Type': 'application/json'}
+        print(f"Error: Bad Request for weather")
+        return weather, 400, {'Content-Type': 'application/json'}
     print(weather['title'])
     out = str([bird_json, weather])
     return out, 200, {'Content-Type': 'application/json'}
