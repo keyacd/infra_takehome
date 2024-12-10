@@ -35,7 +35,7 @@ def hello():
 
 @app.get('/<state>')
 def bird(state):
-
+    state = state.upper
     bird = get_bird(state)
     print(bird)
     weather = get_weather(state)
