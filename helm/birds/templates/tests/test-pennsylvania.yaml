@@ -10,6 +10,6 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['app.py pa']
-      args: ['{{ include "birds.fullname" . }}:{{ .Values.service.port }}']
+      command: ['wget']
+      args: ['{{ include "birds.fullname" . }}:{{ .Values.service.port }}/pa']
   restartPolicy: Never
